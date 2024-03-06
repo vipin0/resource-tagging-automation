@@ -205,10 +205,12 @@ def main(event, context):
         if event['detail']['userIdentity']['type'] == 'AssumedRole':
             _userId, _roleId = get_identity(event)
             _res_tags['roleId'] = _roleId
+            _res_tags['createdBy'] = _roleId
         else:
             _userId = get_identity(event)
         
         _res_tags['userId'] = _userId
+        _res_tags['createdBy'] = _userId
     
     print(_res_tags)
     boto3.client('resourcegroupstaggingapi').tag_resources(
