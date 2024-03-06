@@ -26,6 +26,16 @@ def aws_ec2(event):
         print("tagging for new EBS...")
         _volumeId = event['detail']['responseElements']['volumeId']
         arnList.append(volumeArnTemplate.replace('@region@', _region).replace('@account@', _account).replace('@volumeId@', _volumeId))
+
+    elif event['detail']['eventName'] == 'CreateSecurityGroup':  
+        print("tagging for new SG...")
+        _securityGroupId = event['detail']['responseElements']['groupId']
+        arnList.append(f"arn:aws:ec2:{_region}:{_account}:security-group/{_securityGroupId}")
+
+    # elif event['detail']['eventName'] == 'CreateSecurityGroup':  
+    #     print("tagging for new SG...")
+    #     _securityGroupId = event['detail']['responseElements']['groupId']
+    #     arnList.append(f"arn:aws:ec2:{_region}:{_account}:security-group/{_securityGroupId}")
         
     elif event['detail']['eventName'] == 'CreateInternetGateway':
         print("tagging for new IGW...")
